@@ -8,11 +8,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.*;
+import javax.swing.Timer;
 
 
 /**
@@ -76,6 +77,7 @@ public class Painting extends JPanel implements ActionListener {
         for(int i = 0; i < shapes.size(); i++){
             shapes.get(i).draw(g);
         }
+        g.drawRect(0, 0, 800, 450);
     }
 
     /**
@@ -94,10 +96,10 @@ public class Painting extends JPanel implements ActionListener {
             pause();
         } else { //start
             start();
-            repaint();
         }
 
     }
+
 
     /**
      * Regenerate this painting.
@@ -111,17 +113,43 @@ public class Painting extends JPanel implements ActionListener {
 
         // create random shapes
         // TODO
-        for(int i = 0; i < 15; i++){
-            int task = RANDOM.nextInt(2);
-            switch(task){
+
+        
+        int numberOfShapes = RANDOM.nextInt(10, 21);
+        for (int i = 0; i < numberOfShapes; i++){
+            int task = RANDOM.nextInt(1, 5);
+            switch (task) {
                 case 1: 
                     CircleDingus shape = new CircleDingus(800, 450);
                     shapes.add(shape);
+                    break;
                 case 2:
-                    TreeDingus shape2 = new TreeDingus(800, 450);
+                    RectangleDingus shape2 = new RectangleDingus(800, 450);
                     shapes.add(shape2);
+                    break;
+                case 3:
+                    OvalDingus shape4 = new OvalDingus(800, 450);
+                    shapes.add(shape4);
+                    break;
+                case 4:
+                    TreeDingus shape3 = new TreeDingus(800, 450);
+                    shapes.add(shape3);
+                    break;
+                default:
+                    break;
             }
 
+
+        }
+        int shapesToMove = RANDOM.nextInt(5, 10);
+        for (int i = 0; i < shapes.size(); i++) {
+            if (i < shapesToMove) {
+                shapes.get(i).velX = RANDOM.nextInt(-3, 3);
+                shapes.get(i).velY = RANDOM.nextInt(-3, 3);
+            } else {
+                shapes.get(i).velX = 0;
+                shapes.get(i).velY = 0;
+            }
         }
     }
 
@@ -140,32 +168,46 @@ public class Painting extends JPanel implements ActionListener {
 
 
     void pause() {
-        timer.stop();
+        this.timer.stop();
     }
 
-    Timer timer = new Timer(5, this);
+    Timer timer = new Timer(35, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            // change polygon data
+            // ...
+            int x, y;
+            for (int i = 0; i < shapes.size(); i++) {
+            
+                shapes.get(i).checkOutOfBounds();
+    
+                x = shapes.get(i).x + shapes.get(i).velX;
+                y = shapes.get(i).y + shapes.get(i).velY;
+    
+                shapes.get(i).updateCoords(x, y);
+                
+                repaint();
+           }
+            
+        }
+    });
 
     void start() {
+        int shapesToMove = RANDOM.nextInt(5, 10);
+        Collections.shuffle(shapes);
 
-        timer.start();
         for (int i = 0; i < shapes.size(); i++) {
-            
-            if (shapes.get(i).x < 0 || shapes.get(i).x > 800) {
-                shapes.get(i).velX = -shapes.get(i).velX;
+            if (i < shapesToMove) {
+                shapes.get(i).velX = RANDOM.nextInt(-3, 3);
+                shapes.get(i).velY = RANDOM.nextInt(-3, 3);
+            } else {
+                shapes.get(i).velX = 0;
+                shapes.get(i).velY = 0;
             }
-            if (shapes.get(i).y < 0 || shapes.get(i).y > 450) {
-                shapes.get(i).velY = -shapes.get(i).velY;
-            }
-
-
-
-            shapes.get(i).x += shapes.get(i).velX;
-            shapes.get(i).y += shapes.get(i).velY;
             
-            repaint();
-       }
-        
-
+            
+        }
+        this.timer.start();
     }
 
 

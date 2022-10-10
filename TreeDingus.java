@@ -28,8 +28,8 @@ class TreeDingus extends Dingus {
         super(maxX, maxY);
 
         // initialize TreeDingus properties
-        crownRadius = random.nextInt(maxX / 4); // or something more sophisticated
-        trunkHeight = random.nextInt((maxY - 2 * crownRadius) / 2);
+        crownRadius = random.nextInt(10, maxX / 18); // or something more sophisticated
+        trunkHeight = random.nextInt(crownRadius, crownRadius * 2);
         trunkWidth = crownRadius / 3 + 1;
         filled = random.nextBoolean();
     }
@@ -53,7 +53,19 @@ class TreeDingus extends Dingus {
         if (filled) {
             g.fillRect(xx, yy, trunkWidth, trunkHeight);
         } else {
-            g.fillRect(xx, yy, trunkWidth, trunkHeight);
+            g.drawRect(xx, yy, trunkWidth, trunkHeight);
         }
+        // g.drawRect(limitLeftX, limitUpperY, limitRightX - limitLeftX, limitLowerY - limitUpperY);
+    }
+  
+    @Override
+    void updateCoords(int x, int y) {
+        this.x = x;
+        this.y = y;
+
+        this.limitUpperY = this.y;
+        this.limitLowerY = this.y + 2 * this.crownRadius + this.trunkHeight;
+        this.limitLeftX = this.x;
+        this.limitRightX = this.x + 2 * this.crownRadius;
     }
 }

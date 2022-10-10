@@ -8,8 +8,9 @@ import java.awt.Graphics;
  * @author NAME
  * @id ID
  */
-class CircleDingus extends Dingus {
-    protected int radius;
+class RectangleDingus extends Dingus {
+    protected int height;
+    protected int width;
     protected boolean filled; // true: filled, false: outline
 
     /**
@@ -18,12 +19,13 @@ class CircleDingus extends Dingus {
      * @param maxX upper bound for the x coordinate of the position
      * @param maxY upper bound for the y coordinate of the position
      */
-    public CircleDingus(int maxX, int maxY) {
+    public RectangleDingus(int maxX, int maxY) {
         // intialize randomly the Dingus properties, i.e., position and color
         super(maxX, maxY);
 
         // initialize randomly the CircleDingus properties, i.e., radius and filledness
-        radius = random.nextInt(20, maxY / 8);
+        width = random.nextInt(20, maxX / 4);
+        height = random.nextInt(20, maxY / 4);
         filled = random.nextBoolean();
     }
 
@@ -31,11 +33,11 @@ class CircleDingus extends Dingus {
     void draw(Graphics g) {
         g.setColor(color);
         if (filled) {
-            g.fillArc(x, y, 2 * radius, 2 * radius, 0, 360);
+            g.fillRect(x, y, width, height);
         } else {
-            g.drawArc(x, y, 2 * radius, 2 * radius, 0, 360);
+            g.drawRect(x, y, width, height);
         }
-
+        
         //g.drawRect(limitLeftX, limitUpperY, limitRightX - limitLeftX, limitLowerY - limitUpperY);
     }
 
@@ -45,8 +47,8 @@ class CircleDingus extends Dingus {
         this.y = y;
 
         this.limitUpperY = this.y;
-        this.limitLowerY = this.y + 2 * this.radius;
+        this.limitLowerY = this.y + this.height;
         this.limitLeftX = this.x;
-        this.limitRightX = this.x + 2 * this.radius;
+        this.limitRightX = this.x + this.width;
     }
 }

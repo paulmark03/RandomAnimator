@@ -17,6 +17,7 @@ abstract class Dingus {
      * DON'T CHANGE
      */
     Random random = Painting.RANDOM;
+    
 
     /** 
      * Postion of the shape (upper left corner).
@@ -25,8 +26,13 @@ abstract class Dingus {
     protected int x;
     protected int y;
 
-    double velX = 1;
-    double velY = 1;
+    protected int limitUpperY;
+    protected int limitLowerY;
+    protected int limitLeftX;
+    protected int limitRightX;
+
+    int velX = 2;
+    int velY = 2;
 
     /** 
      * Color used for drawing this shape.
@@ -51,10 +57,7 @@ abstract class Dingus {
         this.maxY = maxY;
 
         // Initialize to a random position
-        x = random.nextInt(maxX);
-        y = random.nextInt(maxY);
-
-        
+        this.updateCoords(random.nextInt(maxX * 3 / 4), random.nextInt(maxY * 2 / 3));
         
 
         // Initialize to a random color
@@ -68,4 +71,15 @@ abstract class Dingus {
     }
 
     abstract void draw(Graphics g);
+
+    abstract void updateCoords(int x, int y);
+
+    public void checkOutOfBounds() {
+        if (this.limitLeftX < 0 || this.limitRightX > this.maxX) {
+            this.velX = -this.velX;
+        }
+        if (this.limitUpperY < 0 || this.limitLowerY > this.maxY) {
+            this.velY = -this.velY;
+        }
+    }
 }

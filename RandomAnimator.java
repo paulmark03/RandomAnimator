@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,6 +35,7 @@ public class RandomAnimator {
             @Override
             public void run() {
                 painting = new Painting();
+                // painting.setBorder(BorderFactory.createLineBorder(Color.black));
                 frame = new JFrame("Computer Assisted Random Animator");
                 frame.add(painting, BorderLayout.CENTER);
 
