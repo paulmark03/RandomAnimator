@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -39,19 +37,15 @@ public class RandomAnimator {
                 frame.add(painting, BorderLayout.CENTER);
 
                 JPanel buttonsPanel = new JPanel();
-                
 
                 regenerateButton = new JButton("Regenerate");
-
-                // painting provides reaction to buttonclick
                 regenerateButton.addActionListener(painting); 
-
                 buttonsPanel.add(regenerateButton);
+
                 shotButton = new JButton("Screenshot");
                 shotButton.addActionListener(painting);
                 buttonsPanel.add(shotButton);
                
-
                 recolor = new JButton("recolor");
                 recolor.addActionListener(painting);
                 buttonsPanel.add(recolor);

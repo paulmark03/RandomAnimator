@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,6 +12,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 
 /**
@@ -86,12 +88,13 @@ public class Painting extends JPanel implements ActionListener {
             repaint();
         } else if ("Screenshot".equals(e.getActionCommand())) { // screenshot
             saveScreenshot(this, filename + current++); // ++ to show of compact code :-)
-        } else if ("color".equals(e.getActionCommand())) {
+        } else if ("recolor".equals(e.getActionCommand())) {
             recolor();
         } else if ("stop".equals(e.getActionCommand())) {
             pause();
         } else { //start
             start();
+            repaint();
         }
 
     }
@@ -122,17 +125,49 @@ public class Painting extends JPanel implements ActionListener {
         }
     }
 
-    void recolor() {
+ 
 
+    void recolor() {
+        for (int i = 0; i < shapes.size(); i++) {
+            shapes.get(i).color = new Color(
+                RANDOM.nextInt(255), 
+                RANDOM.nextInt(255), 
+                RANDOM.nextInt(255)
+            ); 
+        }
+        repaint();
     }
+
 
     void pause() {
-
+        timer.stop();
     }
+
+    Timer timer = new Timer(5, this);
 
     void start() {
 
+        timer.start();
+        for (int i = 0; i < shapes.size(); i++) {
+            
+            if (shapes.get(i).x < 0 || shapes.get(i).x > 800) {
+                shapes.get(i).velX = -shapes.get(i).velX;
+            }
+            if (shapes.get(i).y < 0 || shapes.get(i).y > 450) {
+                shapes.get(i).velY = -shapes.get(i).velY;
+            }
+
+
+
+            shapes.get(i).x += shapes.get(i).velX;
+            shapes.get(i).y += shapes.get(i).velY;
+            
+            repaint();
+       }
+        
+
     }
+
 
     /**
      * Saves a screenshot of this painting to disk.

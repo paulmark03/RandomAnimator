@@ -25,6 +25,9 @@ abstract class Dingus {
     protected int x;
     protected int y;
 
+    double velX = 1;
+    double velY = 1;
+
     /** 
      * Color used for drawing this shape.
      */
@@ -52,13 +55,14 @@ abstract class Dingus {
         y = random.nextInt(maxY);
 
         
+        
 
         // Initialize to a random color
         int r = random.nextInt(255);
         int g = random.nextInt(255);
         int b = random.nextInt(255);
 
-        Color color = new Color(r,g,b);
+        Color color = new Color(r, g, b);
         this.color = color;
        
     }
