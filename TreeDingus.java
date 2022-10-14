@@ -6,10 +6,8 @@ import java.awt.Graphics;
  * TreeDingus draws a "tree" using a rectangle as the trunk, and circle for a
  * crown.
  * 
- * @author NAME
- * @id ID
- * @author NAME
- * @id ID
+ * @author Paul Nicolae Marcu
+ * @id 1844989
  */
 class TreeDingus extends Dingus {
     private int crownRadius;
@@ -28,10 +26,10 @@ class TreeDingus extends Dingus {
         super(maxX, maxY);
 
         // initialize TreeDingus properties
-        crownRadius = random.nextInt(10, maxX / 18); // or something more sophisticated
-        trunkHeight = random.nextInt(crownRadius, crownRadius * 2);
+        crownRadius = random.nextInt(20, maxX / 18); // or something more sophisticated
+        trunkHeight = random.nextInt(crownRadius, (crownRadius * 2) - 10);
         trunkWidth = crownRadius / 3 + 1;
-        filled = random.nextBoolean();
+        filled = true;
     }
 
     @Override

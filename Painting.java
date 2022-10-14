@@ -15,22 +15,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-
 /**
  * Painting.
  * 
- * Paint with Dinguses, i.e., generate a new painting by making a random 
+ * Paint with Dinguses, i.e., generate a new painting by making a random
  * composition of Dingus shapes.
  *
  * TODO:
  *
- * @author NAME
- * @id ID
- * @author NAME
- * @id ID
+ * @author Paul Nicolae Marcu
+ * @id 1844989
  */
 public class Painting extends JPanel implements ActionListener {
-    
 
     /*---- Randomness ----*/
 
@@ -52,11 +48,10 @@ public class Painting extends JPanel implements ActionListener {
     // DON'T CHANGE the following two lines:
     char current = '0';
     String filename = "randomshot_"; // prefix
-    
 
     /*---- Dinguses ----*/
     ArrayList<Dingus> shapes = new ArrayList<Dingus>();
-    
+
     // ...
 
     /**
@@ -64,21 +59,21 @@ public class Painting extends JPanel implements ActionListener {
      */
     public Painting() {
         setPreferredSize(new Dimension(800, 450)); // make panel 800 by 450 pixels.
-        
+
     }
 
     @Override
     protected void paintComponent(Graphics g) { // draw all your shapes
         super.paintComponent(g); // clears the panel
-        
 
         // draw all shapes
         // TODO
-        for(int i = 0; i < shapes.size(); i++){
+        for (int i = 0; i < shapes.size(); i++) {
             shapes.get(i).draw(g);
         }
-        g.drawRect(0, 0, 800, 450);
     }
+
+    boolean startPressed = false;
 
     /**
      * Reaction to button press.
@@ -94,12 +89,12 @@ public class Painting extends JPanel implements ActionListener {
             recolor();
         } else if ("stop".equals(e.getActionCommand())) {
             pause();
-        } else { //start
+        } else { // start
             start();
+            startPressed = true;
         }
 
     }
-
 
     /**
      * Regenerate this painting.
@@ -114,12 +109,11 @@ public class Painting extends JPanel implements ActionListener {
         // create random shapes
         // TODO
 
-        
         int numberOfShapes = RANDOM.nextInt(10, 21);
-        for (int i = 0; i < numberOfShapes; i++){
+        for (int i = 0; i < numberOfShapes; i++) {
             int task = RANDOM.nextInt(1, 5);
             switch (task) {
-                case 1: 
+                case 1:
                     CircleDingus shape = new CircleDingus(800, 450);
                     shapes.add(shape);
                     break;
@@ -138,8 +132,6 @@ public class Painting extends JPanel implements ActionListener {
                 default:
                     break;
             }
-
-
         }
         int shapesToMove = RANDOM.nextInt(5, 10);
         for (int i = 0; i < shapes.size(); i++) {
@@ -153,63 +145,76 @@ public class Painting extends JPanel implements ActionListener {
         }
     }
 
- 
-
+    /**
+     * we use the recolor method in order to give
+     * random colors to out shapes. Each time the
+     * button is pressed every shape changes its
+     * color.
+     */
     void recolor() {
         for (int i = 0; i < shapes.size(); i++) {
             shapes.get(i).color = new Color(
-                RANDOM.nextInt(255), 
-                RANDOM.nextInt(255), 
-                RANDOM.nextInt(255)
-            ); 
+                    RANDOM.nextInt(255),
+                    RANDOM.nextInt(255),
+                    RANDOM.nextInt(255));
         }
         repaint();
     }
 
-
+    /**
+     * This method stops the animation.
+     * 
+     */
     void pause() {
         this.timer.stop();
+        startPressed = false;
     }
 
-    Timer timer = new Timer(35, new ActionListener() {
+    Timer timer = new Timer(10, new ActionListener() {
         @Override
-        public void actionPerformed(ActionEvent ae) {
-            // change polygon data
-            // ...
-            int x, y;
+        public void actionPerformed(ActionEvent e) {
+            int x;
+            int y;
             for (int i = 0; i < shapes.size(); i++) {
-            
+
                 shapes.get(i).checkOutOfBounds();
-    
+
                 x = shapes.get(i).x + shapes.get(i).velX;
                 y = shapes.get(i).y + shapes.get(i).velY;
-    
+
                 shapes.get(i).updateCoords(x, y);
-                
+
                 repaint();
-           }
-            
+            }
+
         }
     });
 
+    /**
+     * The method start starts a timer that repaints the whole
+     * panel every five miliseconds and reupdates the new
+     * coordonates of the shapes which creates movment.
+     */
     void start() {
-        int shapesToMove = RANDOM.nextInt(5, 10);
-        Collections.shuffle(shapes);
 
-        for (int i = 0; i < shapes.size(); i++) {
-            if (i < shapesToMove) {
-                shapes.get(i).velX = RANDOM.nextInt(-3, 3);
-                shapes.get(i).velY = RANDOM.nextInt(-3, 3);
-            } else {
-                shapes.get(i).velX = 0;
-                shapes.get(i).velY = 0;
+        if (!startPressed) {
+            int shapesToMove = RANDOM.nextInt(5, 11);
+            Collections.shuffle(shapes);
+            startPressed = true;
+
+            for (int i = 0; i < shapes.size(); i++) {
+                if (i < shapesToMove) {
+                    shapes.get(i).velX = RANDOM.nextInt(-3, 3);
+                    shapes.get(i).velY = RANDOM.nextInt(-3, 3);
+                } else {
+                    shapes.get(i).velX = 0;
+                    shapes.get(i).velY = 0;
+                }
             }
-            
-            
+            this.timer.start();
         }
-        this.timer.start();
-    }
 
+    }
 
     /**
      * Saves a screenshot of this painting to disk.

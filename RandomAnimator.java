@@ -1,21 +1,15 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /** 
- * Main class for the homework assignment Random Animator.
+ * This class is used for declaring the GUI and all its elements.
+ * It is also the main class.
  * 
- *  
- * TODO:
- *
- * @author NAME
- * @id ID
- * @author NAME
- * @id ID
+ * @author Paul Nicolae Marcu
+ * @id 1844989
  */
 public class RandomAnimator {
     JFrame frame;

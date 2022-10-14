@@ -3,10 +3,8 @@ import java.awt.Graphics;
 /**
  * CircleDingus is an example of a very simple Dingus.
  * 
- * @author NAME
- * @id ID
- * @author NAME
- * @id ID
+ * @author Paul Nicolae Marcu
+ * @id 1844989
  */
 class OvalDingus extends Dingus {
     protected int height;
@@ -26,7 +24,7 @@ class OvalDingus extends Dingus {
         // initialize randomly the CircleDingus properties, i.e., radius and filledness
         width = random.nextInt(20, maxX / 4);
         height = random.nextInt(20, maxY / 4);
-        filled = random.nextBoolean();
+        filled = true;
     }
 
     @Override
